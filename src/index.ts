@@ -14,16 +14,12 @@ const app = new Application({
 
 let video: Sprite = Sprite.from("/video/hub.mp4");
 let video2: Sprite = Sprite.from("/video/wheel.mp4");
+
 const clampy: Sprite = Sprite.from("/clampy.png");
 
-clampy.on("click", () => console.log("Clicked clampy!"));
-video.on("click", () => changeVideo());
+clampy.on("click", () => playVideo());
 
 clampy.interactive = true;
-video.interactive = true;
-
-//@ts-ignore
-video.texture.baseTexture.resource.source.loop = true;
 
 
 centerAnchor(video);
@@ -34,10 +30,20 @@ centerToStage(video, app);
 centerToStage(clampy, app);
 centerToStage(video2, app);
 
+video.texture.baseTexture.resource.load();
 video2.texture.baseTexture.resource.load();
 
-app.stage.addChild(video);	
 app.stage.addChild(clampy);	
+
+const playVideo = () => {
+	app.stage.addChild(video);
+	video.interactive = true;
+
+	//@ts-ignore
+	video.texture.baseTexture.resource.source.loop = true;
+
+	video.on("click", () => changeVideo());
+}
 
 const changeVideo = () => {
 	video = Sprite.from("/video/wheel.mp4");
