@@ -16,7 +16,7 @@ let video: Sprite = Sprite.from("/video/hub.mp4");
 let video2: Sprite = Sprite.from("/video/wheel.mp4");
 const clampy: Sprite = Sprite.from("/clampy.png");
 
-// clampy.on("click", () => console.log("Clicked clampy!"));
+clampy.on("click", () => console.log("Clicked clampy!"));
 video.on("click", () => changeVideo());
 
 clampy.interactive = true;
