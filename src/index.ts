@@ -12,47 +12,51 @@ const app = new Application({
 	height: 720
 });
 
-let video: Sprite = Sprite.from("/video/hub.mp4");
-let video2: Sprite = Sprite.from("/video/wheel.mp4");
-
 const clampy: Sprite = Sprite.from("/clampy.png");
 
-clampy.on("click", () => playVideo());
+clampy.eventMode = "dynamic";
+clampy.on("click", () => startGame());
 
-clampy.interactive = true;
+let video: Sprite;
+let video2: Sprite;
 
-
-centerAnchor(video);
 centerAnchor(clampy);
-centerAnchor(video2);
-
-centerToStage(video, app);
 centerToStage(clampy, app);
-centerToStage(video2, app);
-
-video.texture.baseTexture.resource.load();
-video2.texture.baseTexture.resource.load();
 
 app.stage.addChild(clampy);	
 
-const playVideo = () => {
+
+const startGame = () => {
+	console.log("start game");
+
+	video = Sprite.from("/video/hub.mp4");
+	video2 = Sprite.from("/video/wheel.mp4");
+
+	centerAnchor(video);
+	centerAnchor(video2);
+
+	centerToStage(video, app);
+	centerToStage(video2, app);
+
 	app.stage.addChild(video);
-	video.interactive = true;
+
+	video.eventMode = "dynamic";
+	video.on("click", () => changeVideo());
 
 	//@ts-ignore
 	video.texture.baseTexture.resource.source.loop = true;
 
-	video.on("click", () => changeVideo());
+	//@ts-ignore
+	video2.texture.baseTexture.resource.source.loop = true;
+
+	app.stage.addChild(video);
+	// app.stage.removeChild(video);
+
+	video.texture.baseTexture.resource.load();
+	video2.texture.baseTexture.resource.load();
 }
 
 const changeVideo = () => {
-	video = Sprite.from("/video/wheel.mp4");
-	video.texture.update();
-
-	console.log(video.texture.baseTexture.resource);
 	app.stage.removeChild(video);
-	app.stage.addChild(video2);	
-
-	//@ts-ignore
-	video2.texture.baseTexture.resource.source.loop = true;
+	app.stage.addChild(video2);
 }
